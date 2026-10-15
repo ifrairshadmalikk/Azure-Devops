@@ -1,0 +1,23 @@
+
+trigger:
+  - main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.12'
+    displayName: 'Select Python version'
+
+  - script: |
+      python -m pip install --upgrade pip
+      pip install -r requirements.txt
+      pip install pytest
+    displayName: 'Install dependencies'
+
+  - script: |
+      python -m compileall -q .
+      pytest -v
+    displayName: 'Check Python and run tests'
